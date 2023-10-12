@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.koreaIT.example.JAM.util.DBUtil;
+import com.koreaIT.example.JAM.util.SecSql;
+
 public class App {
 
 	public void start() {
@@ -27,7 +30,7 @@ public class App {
 				System.out.println("드라이버 로딩 실패");
 				e.printStackTrace();
 			}
- 
+
 			String url = "jdbc:mysql://127.0.0.1:3306/JAM?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
 
 			try {
@@ -70,33 +73,16 @@ public class App {
 			String title = sc.nextLine();
 			System.out.printf("내용 : ");
 			String body = sc.nextLine();
-			Article article = new Article(title, body);
 
-			PreparedStatement pstmt = null;
-
-			try {
-
-				String sql = "INSERT INTO article";
-				sql += " SET regDate = NOW(),";
-				sql += "updateDate = NOW(),";
-				sql += "title = '" + title + "',";
-				sql += "`body` = '" + body + "';";
-
-				pstmt = conn.prepareStatement(sql);
-				int affectedRow = pstmt.executeUpdate();
-				System.out.println("affectedRow : " + affectedRow);
-
-			} catch (SQLException e) {
-				System.out.println("에러 a.w : " + e);
-			} finally {
-				try {
-					if (pstmt != null && !pstmt.isClosed()) {
-						pstmt.close();
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			SecSql sql = new SecSql();
+			sql.append("INSERT INTO article");
+			sql.append("SET regDate = NOW(),");
+			sql.append("updateDate = NOW(),");
+			sql.append("title = ?,", title);
+			sql.append("`body`= ?", body);
+			int id = DBUtil.insert(conn, sql);
+			System.out.printf("%d번 게시글이 생성되었습니다.\n",id);
+			
 		} else if (cmd.equals("article list")) {
 			System.out.println("==게시물 목록==");
 			PreparedStatement pstmt = null;
