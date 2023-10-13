@@ -22,10 +22,30 @@ title = CONCAT('제목', RAND()),
 
 SELECT * 
 FROM article;
+WHERE id = 4;
 
+SELECT COUNT(*) > 0
+FROM article
+WHERE id = 4
 
 -- INSERT INTO article
 -- SET regDate = NOW(),
 -- updateDate = NOW(),
 -- title = CONCAT('제목', ROUND(RAND() * 100)),
 -- `body` = CONCAT('내용', ROUND(RAND() * 100));
+CREATE TABLE `member`(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    loginId VARCHAR(50) NOT NULL,
+    loginPw VARCHAR(100) NOT NULL,
+    `name` VARCHAR(50) NOT NULL
+);
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = CONCAT('제목', RAND()),
+`body` = CONCAT('내용', RAND());
+
+SHOW TABLES;
+DESC `member`
