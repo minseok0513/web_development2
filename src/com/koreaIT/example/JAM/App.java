@@ -238,28 +238,32 @@ public class App {
 			System.out.println(id + "번 게시물이 삭제되었습니다.");
 		}
 		if (cmd.equals("member join")) {
+			String loginId=null;
+			String loginPw=null;
+			String loginPwCk=null;
+			String name=null;
 			System.out.println("==회원가입 시작==");
-			SecSql sql = new SecSql();
-			Map<String, Object> memberMap = DBUtil.selectRow(conn, sql);
-
-			if (memberMap.isEmpty()) {
-				System.out.printf("%d번 게시물은 존재하지 않습니다.");
-				return 0;
-			}
 			System.out.printf("아이디를 입력해주세요");
-			String loginId=sc.nextLine();
-			System.out.printf("비밀번호를 입력해주세요");
-			String loginPw=sc.nextLine();
-			System.out.printf("비밀번호를 확인해주세요");
-			String loginPwCk=sc.nextLine();
+			loginId=sc.nextLine();
+			while(true) {				
+				System.out.printf("비밀번호를 입력해주세요");
+				loginPw =sc.nextLine();
+				System.out.printf("비밀번호를 확인해주세요");
+				loginPwCk=sc.nextLine();
+				if(loginPw.equals(loginPwCk)==false) {
+					System.out.println("비밀번호가 일치하지 않습니다.");
+					continue;
+				} break;
+			}
 			System.out.printf("이름을 입력해주세요");
-			String name=sc.nextLine();
-			sql = new SecSql();
+			name=sc.nextLine();
+			SecSql sql= new SecSql();
 			sql.append("INSERT INTO `member`");
+			sql.append("SET regDate = NOW(),");
+			sql.append("updateDate = NOW(),");
 			sql.append("loginId=?,",loginId);
 			sql.append("loginPw=?,",loginPw);
-			sql.append("loginPwCk = ?,", loginPwCk);
-			sql.append("`name` = ?", name);
+			sql.append("name = ?", name);
 			DBUtil.insert(conn, sql);
 			System.out.println("회원가입이 완료되었습니다.");
 			System.out.printf("[%s]회원님 환영합니다.\n",name);

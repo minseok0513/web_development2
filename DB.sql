@@ -10,6 +10,14 @@ CREATE TABLE article(
     `body` TEXT NOT NULL
 );
 
+CREATE TABLE `member`(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    loginId VARCHAR(50) NOT NULL,
+    loginPw VARCHAR(100) NOT NULL,
+    `name` VARCHAR(50) NOT NULL
+);
 SHOW TABLES;
 DESC article;
 
@@ -19,33 +27,22 @@ updateDate = NOW(),
 title = CONCAT('제목', RAND()),
 `body` = CONCAT('내용', RAND());
 
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'test',
+loginPw = 'test',
+`name`='유저1';
 
 SELECT * 
 FROM article;
-WHERE id = 4;
 
 SELECT COUNT(*) > 0
-FROM article
-WHERE id = 4
+FROM `member`
+WHERE loginId='asdasdasdasd';
 
 -- INSERT INTO article
 -- SET regDate = NOW(),
 -- updateDate = NOW(),
 -- title = CONCAT('제목', ROUND(RAND() * 100)),
 -- `body` = CONCAT('내용', ROUND(RAND() * 100));
-CREATE TABLE `member`(
-    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    regDate DATETIME NOT NULL,
-    updateDate DATETIME NOT NULL,
-    loginId VARCHAR(50) NOT NULL,
-    loginPw VARCHAR(100) NOT NULL,
-    `name` VARCHAR(50) NOT NULL
-);
-INSERT INTO `member`
-SET regDate = NOW(),
-updateDate = NOW(),
-loginId = CONCAT('제목', RAND()),
-`body` = CONCAT('내용', RAND());
-
-SHOW TABLES;
-DESC `member`
